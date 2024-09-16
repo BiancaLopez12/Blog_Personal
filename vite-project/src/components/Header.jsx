@@ -5,18 +5,9 @@ const Header = () => {
   return (
     <header>
       <div className="container">
-        <h1>Mi Blog Personal</h1>
+        <h1>𝓜𝓲 𝓑𝓵𝓸𝓰 𝓟𝓮𝓻𝓼𝓸𝓷𝓪𝓵 </h1>
         <nav>
           <ul>
-            <li>
-              <Link to="/">Inicio</Link>
-            </li>
-            <li>
-              <Link to="/about">Acerca de</Link>
-            </li>
-            <li>
-              <Link to="/posts">Publicaciones</Link>
-            </li>
             <li>
               <a
                 href="https://github.com"
