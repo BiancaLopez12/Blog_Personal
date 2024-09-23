@@ -9,27 +9,35 @@ export default function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const getSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) {
-        console.log(error);
-      } else {
-        setUser(data?.session?.user);
+    const session = supabase.auth.getSession();
+    setUser(session?.user);
+    const {
+      data: { subcription },
+    } = dupabase.onAuthStateChange((event, session) => {
+      switch (event) {
+        case "SIGNED_IN":
+          setUser(session?.user);
+          break;
+        case "SIGNED_OUT":
+          setUser(null);
+          break;
+        default:
+          console.log("caso no estimado");
       }
-    };
-
-    getSession();
-  }, []);
-
-  const handleLogin = async () => {
-    const { error, data } = await supabase.auth.signInWithOAuth({
-      provider: "github",
     });
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(data);
-    }
+    return () => {
+      subcription.unsubscribe;
+    };
+  }, []);
+  const handleLogin = async () => {
+    //Pide el singInWithOAuth y despues destructuramos solamente el error
+    await supabase.auth.signInWithOAuth({
+      provider: "github", //establece a github para vincuar
+    });
+  };
+
+  const handleLogOut = async () => {
+    await supabase.auth.signOut();
   };
 
   return (
